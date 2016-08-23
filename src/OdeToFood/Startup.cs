@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 using OdeToFood.Services;
+using Microsoft.AspNetCore.Routing;
+using System;
 
 
 namespace OdeToFood
@@ -31,6 +30,7 @@ namespace OdeToFood
         // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
             services.AddSingleton(provider => Configuration);
             services.AddSingleton<IGreeter, Greeter>();
         }
@@ -48,13 +48,13 @@ namespace OdeToFood
             {
                 app.UseDeveloperExceptionPage();                
             }
-
-
-            //app.UseRuntimeInfoPage("/info"); //kencheck - can find the ref
-
-            //app.UseDefaultFiles(); // it's read the index.html file in wwwroot folder
-            //app.UseStaticFiles(); // it is a middleware which for read the wwwroot folder
+            
+           // app.UseRuntimeInfoPage("/info"); //checkitout - can find the ref
+            
+            
             app.UseFileServer(); // this is replace the UseDefaultFiles and UseStaticFiles
+            app.UseMvc(ConfigureRoute);
+       
 
             app.Run(async (context) =>
             {
@@ -62,5 +62,13 @@ namespace OdeToFood
                 await context.Response.WriteAsync(greeting);
             });
         }
+
+        private void ConfigureRoute(IRouteBuilder routeBuilder)
+        {
+            // /Home/Index
+            routeBuilder.MapRoute("Default", 
+                "{controller=Home}/{action=Index}/{id?}");
+        }
     }
 }
+
