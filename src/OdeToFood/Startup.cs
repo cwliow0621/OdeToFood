@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using System.IO;
 using OdeToFood.Services;
 
+
 namespace OdeToFood
 {
     public class Startup
@@ -45,8 +46,15 @@ namespace OdeToFood
 
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage();                
             }
+
+
+            //app.UseRuntimeInfoPage("/info"); //kencheck - can find the ref
+
+            //app.UseDefaultFiles(); // it's read the index.html file in wwwroot folder
+            //app.UseStaticFiles(); // it is a middleware which for read the wwwroot folder
+            app.UseFileServer(); // this is replace the UseDefaultFiles and UseStaticFiles
 
             app.Run(async (context) =>
             {
