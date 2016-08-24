@@ -1,12 +1,14 @@
-﻿@model IEnumerable<OdeToFood.Models.Restaurant>
+﻿@model OdeToFood.ViewModels.HomePageViewModel
+
 <html xmlns ="http://www.w3.org/1999/xhtml">
 <head>
     <title>Home</title>
 </head>
 <body>
     <h1>Welcome!</h1>
+    <h3>@Model.CurrentGreeting</h3>
     <table>
-        @foreach (var restaurant in Model)
+        @foreach (var restaurant in Model.Restaurant)
         {
             <tr>
                 <td>@restaurant.Id</td>
