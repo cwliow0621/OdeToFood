@@ -11,7 +11,9 @@
         @foreach (var restaurant in Model.Restaurant)
         {
             <tr>
-                <td>@restaurant.Id</td>
+                <td>
+                    @Html.ActionLink(restaurant.Id.ToString(),"Details", new { id = restaurant.Id })
+                </td>                
                 <td>@restaurant.Name</td>
             </tr>
         }
