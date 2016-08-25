@@ -11,5 +11,9 @@ namespace OdeToFood.Entities
     {
         public DbSet<Restaurant> Restaurants { get; set; }
 
+        public OdeToFoodDbContext(DbContextOptions<OdeToFoodDbContext> options):base(options)
+        {
+
+        }
     }
 }
