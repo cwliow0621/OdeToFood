@@ -1,17 +1,12 @@
 ﻿@model OdeToFood.Entities.Restaurant
+@{
+    ViewBag.Title = "Detail";
+}
 
-<html xmlns ="http://www.w3.org/1999/xhtml">
-<head>
-    <title>@Model.Name</title>
-</head>
-<body>
-    <h1>Name : @Model.Name</h1>
-    <div>Id : @Model.Id</div>
-    <div>Cuisine : @Model.Cuisine</div>
-   <div>
-       <a href="/">Home</a>       
-   </div>
-   
-</body>
+<h1>Name : @Model.Name</h1>
+<div>Id : @Model.Id</div>
+<div>Cuisine : @Model.Cuisine</div>
+<div>
+    <a href="/">Home</a>
+</div>
 
-</html>
