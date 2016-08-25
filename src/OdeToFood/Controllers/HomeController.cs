@@ -10,7 +10,7 @@ namespace OdeToFood.Controllers
         private IGreeter _greeter;
         private IRestaurantData _restaurantData;
 
-        public HomeController(IRestaurantData restaurantData,IGreeter greeter)
+        public HomeController(IRestaurantData restaurantData, IGreeter greeter)
         {
             _restaurantData = restaurantData;
             _greeter = greeter;
@@ -22,7 +22,31 @@ namespace OdeToFood.Controllers
             model.CurrentGreeting = _greeter.GetGreeting();
             return View(model);
         }
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var model = _restaurantData.Get(id);
+            if (model == null)
+            {
+                return RedirectToAction("Index");
+            }
+            return View(model);
+        }
 
+        [HttpPost]
+        public IActionResult Edit(int id, RestaurantEditViewModel model)
+        {
+            var restaurant = _restaurantData.Get(id);
+            if (restaurant != null && ModelState.IsValid)
+            {
+                restaurant.Name = model.Name;
+                restaurant.Cuisine = model.Cuisine;
+                _restaurantData.Commit(); // update
+
+                return RedirectToAction("Details", new { id = restaurant.Id });
+            }
+            return View(restaurant);
+        }
 
         [HttpGet]
         public ViewResult Create()
@@ -33,16 +57,18 @@ namespace OdeToFood.Controllers
         [HttpPost]
         public IActionResult Create(RestaurantEditViewModel model)
         {
-            if (ModelState.IsValid) { 
-            var restaurant = new Restaurant()
+            if (ModelState.IsValid)
             {
-                Name = model.Name,
-                Cuisine = model.Cuisine
-            };
-            
-            _restaurantData.Add(restaurant);
+                var restaurant = new Restaurant()
+                {
+                    Name = model.Name,
+                    Cuisine = model.Cuisine
+                };
 
-            return RedirectToAction("Details", new { id = restaurant.Id });
+                _restaurantData.Add(restaurant);
+                _restaurantData.Commit();
+
+                return RedirectToAction("Details", new { id = restaurant.Id });
             }
             return View();
         }
