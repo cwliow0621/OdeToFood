@@ -7,8 +7,7 @@
         French,
         American
     }
-
-
+    
     public class Restaurant
     {
         public int Id { get; set; }
