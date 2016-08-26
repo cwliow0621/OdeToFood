@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Routing;
 using System;
 using OdeToFood.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace OdeToFood
 {
@@ -31,11 +32,18 @@ namespace OdeToFood
         // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            
+            services.AddMvc();
+
             services.AddEntityFrameworkSqlServer()
                 .AddDbContext<OdeToFoodDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddMvc();
+            services.AddIdentity<User, IdentityRole>(config=> 
+            {
+                config.User.RequireUniqueEmail = true;
+                config.Password.RequiredLength = 8;
+            })                          
+                .AddEntityFrameworkStores<OdeToFoodDbContext>();
+            
             services.AddSingleton(provider => Configuration);
             services.AddSingleton<IGreeter, Greeter>();
             services.AddScoped<IRestaurantData, SqlRestaurantData>();
@@ -59,8 +67,10 @@ namespace OdeToFood
             
             
             app.UseFileServer(); // this is replace the UseDefaultFiles and UseStaticFiles
+
+
+            app.UseIdentity();//add identity middleware, this is must be before app.UseMvc()
             app.UseMvc(ConfigureRoute);
-       
 
             app.Run(async (context) =>
             {

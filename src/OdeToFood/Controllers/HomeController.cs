@@ -2,6 +2,7 @@
 using OdeToFood.ViewModels;
 using OdeToFood.Services;
 using OdeToFood.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace OdeToFood.Controllers
 {
@@ -23,6 +24,7 @@ namespace OdeToFood.Controllers
             return View(model);
         }
         [HttpGet]
+        [Authorize]
         public IActionResult Edit(int id)
         {
             var model = _restaurantData.Get(id);
