@@ -12,6 +12,8 @@ using System;
 using OdeToFood.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.Extensions.PlatformAbstractions;
+
 
 namespace OdeToFood
 {
@@ -54,6 +56,7 @@ namespace OdeToFood
             IApplicationBuilder app, 
             IHostingEnvironment env, 
             ILoggerFactory loggerFactory,
+            //ApplicationEnvironment appEnvironment,
             IGreeter greeter)
         {
             loggerFactory.AddConsole();
@@ -68,6 +71,7 @@ namespace OdeToFood
             
             app.UseFileServer(); // this is replace the UseDefaultFiles and UseStaticFiles
 
+            //app.UseNodeModules(appEnvironment);
 
             app.UseIdentity();//add identity middleware, this is must be before app.UseMvc()
             app.UseMvc(ConfigureRoute);
