@@ -39,7 +39,7 @@ namespace OdeToFood
 
             services.AddIdentity<User, IdentityRole>(config=> 
             {
-                config.User.RequireUniqueEmail = true;
+                //config.User.RequireUniqueEmail = true;
                 config.Password.RequiredLength = 8;
             })                          
                 .AddEntityFrameworkStores<OdeToFoodDbContext>();
