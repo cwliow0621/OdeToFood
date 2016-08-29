@@ -41,7 +41,7 @@
         @RenderBody()
         <footer>
             @RenderSection("footer", false)
-            @*@Component.Invoke("Greeting")*@
+            @await Component.InvokeAsync("Greeting")
         </footer>
     </div>
     <environment name="Development">
